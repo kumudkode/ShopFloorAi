@@ -1,28 +1,32 @@
-import { NextResponse } from 'next/server'
-import { getDashboardData } from '@/backend/metrics'
-import { getWorkerCount } from '@/backend/database'
-import { seedDatabase } from '@/backend/seed'
+import { NextResponse } from "next/server";
+import { getDashboardData } from "@/backend/metrics";
+import { getWorkerCount } from "@/backend/database";
+import { seedDatabase } from "@/backend/seed";
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
     // Auto-seed if database is empty
     if (getWorkerCount() === 0) {
-      seedDatabase()
+      seedDatabase();
     }
 
-    const data = getDashboardData()
+    const data = getDashboardData();
 
     return NextResponse.json({
       success: true,
-      data
-    })
+      data,
+    });
   } catch (error: any) {
-    console.error('Error fetching metrics:', error)
+    console.error("Error fetching metrics:", error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to fetch metrics', stack: error.stack },
-      { status: 500 }
-    )
+      {
+        success: false,
+        error: error.message || "Failed to fetch metrics",
+        stack: error.stack,
+      },
+      { status: 500 },
+    );
   }
 }

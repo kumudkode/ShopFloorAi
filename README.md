@@ -96,31 +96,34 @@ An AI-powered manufacturing analytics platform that ingests computer vision even
 ### Tables
 
 #### Workers
-| Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
-| worker_id | TEXT | PRIMARY KEY | Unique ID (e.g., "W1") |
-| name | TEXT | NOT NULL | Display name |
-| created_at | TEXT | NOT NULL | ISO 8601 timestamp |
+
+| Column     | Type | Constraints | Description            |
+| ---------- | ---- | ----------- | ---------------------- |
+| worker_id  | TEXT | PRIMARY KEY | Unique ID (e.g., "W1") |
+| name       | TEXT | NOT NULL    | Display name           |
+| created_at | TEXT | NOT NULL    | ISO 8601 timestamp     |
 
 #### Workstations
-| Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
-| station_id | TEXT | PRIMARY KEY | Unique ID (e.g., "S1") |
-| name | TEXT | NOT NULL | Display name |
-| type | TEXT | NOT NULL | Assembly, QC, Packaging |
-| created_at | TEXT | NOT NULL | ISO 8601 timestamp |
+
+| Column     | Type | Constraints | Description             |
+| ---------- | ---- | ----------- | ----------------------- |
+| station_id | TEXT | PRIMARY KEY | Unique ID (e.g., "S1")  |
+| name       | TEXT | NOT NULL    | Display name            |
+| type       | TEXT | NOT NULL    | Assembly, QC, Packaging |
+| created_at | TEXT | NOT NULL    | ISO 8601 timestamp      |
 
 #### Events
-| Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
-| id | INTEGER | PRIMARY KEY | Auto-increment |
-| timestamp | TEXT | NOT NULL | Event occurrence time |
-| worker_id | TEXT | FK→workers | Worker reference |
-| workstation_id | TEXT | FK→workstations | Station reference |
-| event_type | TEXT | NOT NULL | working/idle/absent/product_count |
-| confidence | REAL | NOT NULL | ML confidence (0-1) |
-| count | INTEGER | NULLABLE | Units produced |
-| created_at | TEXT | DEFAULT NOW | Ingestion time |
+
+| Column         | Type    | Constraints     | Description                       |
+| -------------- | ------- | --------------- | --------------------------------- |
+| id             | INTEGER | PRIMARY KEY     | Auto-increment                    |
+| timestamp      | TEXT    | NOT NULL        | Event occurrence time             |
+| worker_id      | TEXT    | FK→workers      | Worker reference                  |
+| workstation_id | TEXT    | FK→workstations | Station reference                 |
+| event_type     | TEXT    | NOT NULL        | working/idle/absent/product_count |
+| confidence     | REAL    | NOT NULL        | ML confidence (0-1)               |
+| count          | INTEGER | NULLABLE        | Units produced                    |
+| created_at     | TEXT    | DEFAULT NOW     | Ingestion time                    |
 
 ---
 
@@ -128,29 +131,29 @@ An AI-powered manufacturing analytics platform that ingests computer vision even
 
 ### Worker Metrics
 
-| Metric | Formula |
-|--------|---------|
-| **Active Time** | Sum of durations where `event_type = 'working'` |
-| **Idle Time** | Sum of durations where `event_type IN ('idle', 'absent')` |
-| **Utilization %** | `(Active Time / Total Time) × 100` |
-| **Units Produced** | Sum of `count` from `product_count` events |
-| **Production Rate** | `Units Produced / Active Hours` |
+| Metric              | Formula                                                   |
+| ------------------- | --------------------------------------------------------- |
+| **Active Time**     | Sum of durations where `event_type = 'working'`           |
+| **Idle Time**       | Sum of durations where `event_type IN ('idle', 'absent')` |
+| **Utilization %**   | `(Active Time / Total Time) × 100`                        |
+| **Units Produced**  | Sum of `count` from `product_count` events                |
+| **Production Rate** | `Units Produced / Active Hours`                           |
 
 ### Workstation Metrics
 
-| Metric | Formula |
-|--------|---------|
-| **Occupancy Time** | Duration with any worker present |
-| **Utilization %** | `(Working Time / 8-hour shift) × 100` |
-| **Throughput** | `Units Produced / Occupancy Hours` |
+| Metric             | Formula                               |
+| ------------------ | ------------------------------------- |
+| **Occupancy Time** | Duration with any worker present      |
+| **Utilization %**  | `(Working Time / 8-hour shift) × 100` |
+| **Throughput**     | `Units Produced / Occupancy Hours`    |
 
 ### Factory Metrics
 
-| Metric | Formula |
-|--------|---------|
-| **Total Productive Time** | Sum of all worker active times |
-| **Average Utilization** | Mean of worker utilization percentages |
-| **Average Production Rate** | `Total Units / Total Active Hours` |
+| Metric                      | Formula                                |
+| --------------------------- | -------------------------------------- |
+| **Total Productive Time**   | Sum of all worker active times         |
+| **Average Utilization**     | Mean of worker utilization percentages |
+| **Average Production Rate** | `Total Units / Total Active Hours`     |
 
 ---
 
@@ -199,6 +202,7 @@ docker-compose up -d
 ## 🔌 API Reference
 
 ### POST /api/events
+
 Ingest AI event from CV system.
 
 ```json
@@ -213,12 +217,15 @@ Ingest AI event from CV system.
 ```
 
 ### GET /api/metrics
+
 Fetch dashboard data (factory, workers, workstations).
 
 ### GET /api/events
+
 Query event history with filters.
 
 ### POST /api/seed
+
 Refresh sample data.
 
 ---
@@ -235,13 +242,13 @@ Refresh sample data.
 
 ### Tradeoffs
 
-| Decision | Pro | Con | Mitigation |
-|----------|-----|-----|------------|
-| **SQLite** | Fast, zero config | Limited scale | Upgrade to TimescaleDB |
-| **Real-time compute** | Always accurate | Higher latency | Add Redis cache |
-| **No auth** | Faster development | Not production-ready | Add JWT/API keys |
-| **Append-only** | Audit trail | Potential duplicates | UNIQUE constraint |
-| **Monolith** | Rapid development | Harder to scale | Microservices later |
+| Decision              | Pro                | Con                  | Mitigation             |
+| --------------------- | ------------------ | -------------------- | ---------------------- |
+| **SQLite**            | Fast, zero config  | Limited scale        | Upgrade to TimescaleDB |
+| **Real-time compute** | Always accurate    | Higher latency       | Add Redis cache        |
+| **No auth**           | Faster development | Not production-ready | Add JWT/API keys       |
+| **Append-only**       | Audit trail        | Potential duplicates | UNIQUE constraint      |
+| **Monolith**          | Rapid development  | Harder to scale      | Microservices later    |
 
 ---
 
@@ -252,6 +259,7 @@ Refresh sample data.
 **Problem:** Cameras lose connection, events queue locally.
 
 **Solution:**
+
 - Use source timestamps, not server time
 - Implement idempotent batch ingestion with `event_uuid`
 - UPSERT to handle duplicates
@@ -262,6 +270,7 @@ Refresh sample data.
 **Problem:** AI performance degrades over time.
 
 **Solution:**
+
 - Monitor confidence score trends (alert if <0.85)
 - Track event distribution shifts (chi-squared test)
 - Detect temporal anomalies (events/hour deviation)
@@ -273,6 +282,7 @@ Refresh sample data.
 **Problem:** 10,000 events/hour overwhelms current setup.
 
 **Solution:**
+
 - **Phase 1:** TimescaleDB + Redis cache + Kubernetes
 - **Phase 2:** Kafka message queue + ClickHouse + worker pool
 - **Database:** Hypertables with continuous aggregates
@@ -284,6 +294,7 @@ Refresh sample data.
 **Problem:** 10 factories globally with data sovereignty.
 
 **Solution:**
+
 - **Edge-cloud hybrid:** Local servers per site
 - **Data residency:** Raw events stay on-site
 - **Aggregation sync:** Only hourly metrics to cloud

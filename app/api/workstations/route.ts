@@ -1,28 +1,28 @@
-import { NextResponse } from 'next/server'
-import { getWorkstations, getWorkerCount } from '@/backend/database'
-import { seedDatabase } from '@/backend/seed'
+import { NextResponse } from "next/server";
+import { getWorkstations, getWorkerCount } from "@/backend/database";
+import { seedDatabase } from "@/backend/seed";
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
     // Auto-seed if database is empty
     if (getWorkerCount() === 0) {
-      seedDatabase()
+      seedDatabase();
     }
-    
-    const workstations = getWorkstations()
-    
+
+    const workstations = getWorkstations();
+
     return NextResponse.json({
       success: true,
       count: workstations.length,
-      workstations
-    })
+      workstations,
+    });
   } catch (error) {
-    console.error('Error fetching workstations:', error)
+    console.error("Error fetching workstations:", error);
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch workstations' },
-      { status: 500 }
-    )
+      { success: false, error: "Failed to fetch workstations" },
+      { status: 500 },
+    );
   }
 }
