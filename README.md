@@ -15,6 +15,9 @@ An AI-powered manufacturing analytics platform that ingests computer vision even
 
 > **Important:** This application uses `bun:sqlite` which is Bun-specific and requires Bun runtime. Production builds should be done using Docker (which includes Bun) or locally with Bun installed.
 
+## 🎥 Demo-Video
+![demo-site](demo.gif)
+
 ## 🔗 Quick Links
 
 - **GitHub Repository:** [https://github.com/kumudkode/ShopFloorAi]
@@ -175,9 +178,11 @@ cd shopfloor-ai
 bun install
 
 # Start dev server (auto-seeds database on first run)
-bun dev
+bun run dev
 
 # Open http://localhost:3000
+
+# Note: The dev script uses 'bun --bun' to ensure access to Bun's native modules
 ```
 
 ### Docker (Recommended for Production)

@@ -5,7 +5,7 @@
   "description": "AI-powered manufacturing analytics platform for monitoring worker productivity and workstation utilization",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "bun --bun next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint ."
