@@ -17,7 +17,7 @@ An AI-powered manufacturing analytics platform that ingests computer vision even
 
 ## 🔗 Quick Links
 
-- **GitHub Repository:** [https://github.com/kumud-ranjan/shopfloor-ai](https://github.com/kumud-ranjan/shopfloor-ai)
+- **GitHub Repository:** [https://github.com/kumudkode/ShopFloorAi]
 - **Live Demo:** [https://shopfloor-ai.example.com](https://shopfloor-ai.example.com) _(Update with your deployment URL)_
 - **Documentation:** Full API reference and deployment guide below
 
@@ -351,16 +351,10 @@ MIT © Kumud Ranjan
 
 ---
 
-## 🤝 Contributing
-
-PRs welcome! Please open an issue first.
-
----
-
 ## 📧 Contact
 
 **Author:** Kumud Ranjan  
-**GitHub:** [@kumud-ranjan](https://github.com/kumud-ranjan)
+**GitHub:** [@kumud-ranjan](https://github.com/kumudkode)
 
 ---
 
