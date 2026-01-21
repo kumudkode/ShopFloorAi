@@ -1,8 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
-  serverExternalPackages: ["bun:sqlite"]
+  output: "standalone"
 };
 
 export default nextConfig;

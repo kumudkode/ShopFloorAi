@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { seedDatabase } from '@/backend/seed'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST() {
   try {
     const result = seedDatabase()

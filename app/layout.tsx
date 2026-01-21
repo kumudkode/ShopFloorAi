@@ -1,7 +1,6 @@
 import React from "react"
 import type { Metadata } from 'next'
 import { Inter, Geist_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const _inter = Inter({ subsets: ["latin"] });
@@ -10,7 +9,7 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: 'ShopFloor AI - Productivity Dashboard',
   description: 'AI-powered manufacturing analytics platform for monitoring worker productivity and workstation utilization',
-  generator: 'v0.app',
+  authors: [{ name: 'Kumud Ranjan' }],
   icons: {
     icon: [
       {
@@ -39,7 +38,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={`font-sans antialiased`}>
         {children}
-        <Analytics />
       </body>
     </html>
   )

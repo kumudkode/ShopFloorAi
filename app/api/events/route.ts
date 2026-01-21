@@ -3,6 +3,8 @@ import { createEvent, getEvents, getWorkerById, getWorkstationById, getWorkerCou
 import { seedDatabase } from '@/backend/seed'
 import type { EventIngestionRequest, EventType } from '@/backend/types'
 
+export const dynamic = 'force-dynamic'
+
 const VALID_EVENT_TYPES: EventType[] = ['working', 'idle', 'absent', 'product_count']
 
 export async function POST(request: NextRequest) {
