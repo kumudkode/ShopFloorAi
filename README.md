@@ -16,6 +16,7 @@ An AI-powered manufacturing analytics platform that ingests computer vision even
 > **Important:** This application uses `bun:sqlite` which is Bun-specific and requires Bun runtime. Production builds should be done using Docker (which includes Bun) or locally with Bun installed.
 
 ## 🎥 Demo-Video
+
 ![demo-site](demo.gif)
 
 ## 🔗 Quick Links
